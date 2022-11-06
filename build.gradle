@@ -1,0 +1,57 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.5'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'java'
+}
+
+group = 'com.hasankhatib'
+version = "1.0${getVersionHash()}" as Object
+sourceCompatibility = '17'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	implementation "org.springframework.boot:spring-boot-starter-actuator"
+	implementation "org.springframework.boot:spring-boot-starter-logging"
+	implementation 'io.opentracing.contrib:opentracing-spring-jaeger-cloud-starter:3.3.1'
+
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'io.projectreactor:reactor-test'
+}
+
+//spotless {
+//	format 'misc', {
+//		target '*.gradle', '*.md', '.gitignore'
+//		trimTrailingWhitespace()
+//		indentWithTabs() // or spaces. Takes an integer argument if you don't like 4
+//		endWithNewline()
+//	}
+//	java {
+//		palantirJavaFormat()
+//		licenseHeader '/* (C)$YEAR */'
+//	}
+//}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+tasks.jar { enabled = false }
+
+static def getVersionHash() {
+	if (System.env['VERSION_HASH'] != null) {
+		return "-${System.getenv('VERSION_HASH')}" as Object
+	} else {
+		return ''
+	}
+}

@@ -1,0 +1,23 @@
+
+app:
+  meme-generator:
+    url: https://ronreiter-meme-generator.p.rapidapi.com/meme?font=Impact
+    meme-code: Dad-Joke-Dog
+    font-size: 18
+    headers:
+      api-key: ${RAPIDAPI_KEY:key}
+      api-host: ronreiter-meme-generator.p.rapidapi.com
+  dad-jokes:
+    url: https://dad-jokes.p.rapidapi.com/random/joke
+    headers:
+      api-host: dad-jokes.p.rapidapi.com
+      api-key: ${RAPIDAPI_KEY:foo}
+spring:
+  webflux:
+    base-path: /random-meme
+  application:
+    name: meme-generator
+opentracing:
+  jaeger:
+    http-sender:
+      url: http://localhost:14268/api/traces
