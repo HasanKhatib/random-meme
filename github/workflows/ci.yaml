@@ -1,0 +1,26 @@
+name: CI - Build & Dockerize
+on:
+  push:
+    branches: ['master']
+
+jobs:
+  code-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+      - name: Gradle build
+        run: |
+          gradle clean build
+      - name: Docker login
+        run: |
+          echo ${{ secrets.DH_TOKEN }} | docker login -u hasankhatib --password-stdin
+      - name: Docker Build & Push
+        run: |
+          docker build -t ${{ github.event.repository.name }}:latest .
+          docker push ${{ github.event.repository.name }}:latest
