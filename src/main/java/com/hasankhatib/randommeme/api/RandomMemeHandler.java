@@ -77,9 +77,8 @@ public class RandomMemeHandler {
       .flatMap(image -> {
         DataBuffer buffer = new DefaultDataBufferFactory().wrap(image);
         return ServerResponse.ok().contentType(MediaType.IMAGE_JPEG).body(BodyInserters.fromDataBuffers(Flux.just(buffer)));
-
       })
-      .switchIfEmpty(ServerResponse.notFound().build())
+      .switchIfEmpty(ServerResponse.badRequest().build())
       .onErrorResume(e -> {
         log.error(e.getMessage(), e);
         return ServerResponse.badRequest().build();

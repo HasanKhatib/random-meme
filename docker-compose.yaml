@@ -14,10 +14,10 @@ services:
       - "14269:14269"
       - "9411:9411"
     networks:
-      - back-tier
+      - meme-net
 
   meme-service:
-    image: hasankhatib/random-meme
+    image: hasankhatib/random-meme:latest
     build: .
     environment:
       - JAEGER_URI=http://observability:14268/api/traces
@@ -26,7 +26,7 @@ services:
     ports:
       - "8080:8080"
     networks:
-      - back-tier
+      - meme-net
     depends_on:
       - observability
   
@@ -39,11 +39,11 @@ services:
       - BE_SERVICE_URL=http://meme-service:8080/
       - JAEGER_URI=http://observability:14268/api/traces
     networks:
-      - back-tier
+      - meme-net
     ports:
       - "8081:8081"
     depends_on:
       - meme-service
 
 networks:
-  back-tier:
+  meme-net:

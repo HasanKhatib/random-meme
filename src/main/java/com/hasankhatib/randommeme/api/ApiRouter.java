@@ -14,7 +14,7 @@ public class ApiRouter {
   public RouterFunction<ServerResponse> route(
     RandomMemeHandler randomMemeHandler) {
     return RouterFunctions.route(
-        RequestPredicates.GET("/").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),
+        RequestPredicates.GET("").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),
         randomMemeHandler::get);
   }
 }
