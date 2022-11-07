@@ -1,4 +1,3 @@
-
 app:
   meme-generator:
     url: https://ronreiter-meme-generator.p.rapidapi.com/meme?font=Impact
@@ -16,8 +15,10 @@ spring:
   webflux:
     base-path: /random-meme
   application:
-    name: meme-generator
+    name: random-meme
 opentracing:
   jaeger:
     http-sender:
-      url: http://localhost:14268/api/traces
+      url: ${JAEGER_URI:http://observability:14268/api/traces}
+server:
+  port: 8080
