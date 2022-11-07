@@ -16,7 +16,7 @@ services:
     networks:
       - back-tier
 
-  random-meme:
+  meme-service:
     image: hasankhatib/random-meme
     build: .
     environment:
@@ -29,6 +29,21 @@ services:
       - back-tier
     depends_on:
       - observability
+  
+  api-gateway:
+    image: hasankhatib/api-gateway
+    build: .
+    environment:
+      - API_USER=user
+      - API_PASS=pass
+      - BE_SERVICE_URL=http://meme-service:8080/
+      - JAEGER_URI=http://observability:14268/api/traces
+    networks:
+      - back-tier
+    ports:
+      - "8081:8081"
+    depends_on:
+      - meme-service
 
 networks:
   back-tier:
